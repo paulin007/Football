@@ -1,0 +1,54 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+        <style type="text/css">
+            .ui-picklist .ui-picklist-item {
+                border: 1px solid;
+            }
+        </style>
+
+        <h:form id="form">
+            <p:growl id="msgs" showDetail="true" escape="false"/>
+
+            <p:selectOneMenu value="#{transferView.selectedTeam}" converter="teamConverter">
+                <p:ajax event="itemSelect" update="@form" />
+                <f:selectItem itemLabel="Select Team" itemValue="#{null}" />
+                <f:selectItems value="#{transferView.teams}" var="team" itemLabel="#{team.name}" itemValue="#{team}"/>
+            </p:selectOneMenu>
+
+            <p:pickList var="player" value="#{transferView.playerModel}" converter="playerConverter" itemValue="#{player}" itemLabel="#{player.name}"
+                        rendered="#{not empty transferView.selectedTeam.name}">
+                <f:facet name="sourceCaption"><h:outputText value="Players"/></f:facet>
+                <f:facet name="targetCaption"><h:outputText value="Team #{transferView.selectedTeam.name}"/></f:facet>
+
+                <p:ajax event="transfer" listener="#{transferView.onTransfer}" update="form:teamPlayerPanel form:msgs" />
+                <p:column>
+                    <h:outputText value="#{player.position}" />
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{player.name}" />
+                </p:column>
+            </p:pickList>
+
+            <p:fieldset legend="TEAM PLAYERS" rendered="#{not empty transferView.selectedTeam.name}">
+                <p:dataGrid id="teamPlayerPanel" value="#{transferView.playerModel.target}" var="teamplayer" columns="4">
+                    <p:panel header="#{teamplayer.name}" style="text-align: center;">
+                        <p:panelGrid columns="2" layout="grid">
+                            <h:outputText value="Goals" />
+                            <h:outputText value="#{teamplayer.goals}" />
+
+                            <h:outputText value="Position" />
+                            <h:outputText value="#{teamplayer.position}" style="font-weight: bold" />
+                        </p:panelGrid>
+                    </p:panel>
+                </p:dataGrid>
+            </p:fieldset>
+            <p:commandButton value="Save" actionListener="#{transferView.onSave}" update="form:msgs" rendered="#{not empty transferView.selectedTeam.name}"/>
+        </h:form>
+    </ui:define>
+</ui:composition>

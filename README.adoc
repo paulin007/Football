@@ -1,0 +1,15 @@
+== Full Stack Java EE with PrimeFaces Workshop
+
+This project is aimed to present workshop about http://www.eventbrite.com/e/full-stack-java-ee-with-primefaces-workshop-tickets-25046029348[
+Full Stack Java EE with PrimeFaces Workshop].
+
+If you want to try this demo together with Tutor(s), you should install the following tools on your system.
+
+* http://www-us.apache.org/dist/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.zip[Apache Maven]
+** Just download, extract and set $M2_HOME/bin value to the PATH system variable.
+* http://download.jboss.org/wildfly/9.0.2.Final/wildfly-9.0.2.Final.zip[Widfly 9.0.2]
+** Just download and extract any place on your computer
+* You should have JDK installed http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html[JDK8 Download Page]
+
+To attend the workshop please use http://www.eventbrite.com/e/full-stack-java-ee-with-primefaces-workshop-tickets-25046029348[registration] page.
+

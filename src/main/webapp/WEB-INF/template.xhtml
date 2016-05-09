@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <h:head>
+        <title>Football</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <style type="text/css">
+            .InlineCalendar .ui-datepicker-inline {
+                width: 200px;
+                height: 250px;
+            }
+        </style>
+    </h:head>
+    <h:body>
+        <p:layout fullPage="true">
+            <p:layoutUnit position="west" size="200" header="Left" resizable="true" closable="true" collapsible="true">
+                <h:outputText value="West unit content." />
+            </p:layoutUnit>
+
+            <p:layoutUnit position="north" size="100">
+                <h:outputText value="North unit content." />
+            </p:layoutUnit>
+
+            <p:layoutUnit position="east" size="300" header="Right" resizable="true" closable="true" collapsible="true" effect="drop">
+                <h:form>
+                    <p:accordionPanel>
+                        <p:tab title="Clock">
+                            <p:clock />
+                        </p:tab>
+                        <p:tab title="Calendar">
+                            <p:calendar mode="inline" styleClass="InlineCalendar"/>
+                        </p:tab>
+                    </p:accordionPanel>
+                </h:form>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="center">
+                <ui:insert name="content" />
+            </p:layoutUnit>
+        </p:layout>
+    </h:body>
+</html>

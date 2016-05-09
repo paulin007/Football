@@ -1,0 +1,141 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      template="/WEB-INF/template.xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <ui:define name="content">
+        <h:form prependId="false">
+            <p:remoteCommand name="rcPlayer" update="playerTable" />
+            <p:remoteCommand name="rcTeam" update="teamTable" />
+            
+            <p:panelGrid layout="grid" columns="2" styleClass="ui-fluid ui-panelgrid-blank">
+                <p:panel header="Add Player" id="playerPanel">
+                    <p:panelGrid layout="grid" columns="2">
+                        <h:outputLabel for="playername" value="Name: "/>
+                        <p:inputText id="playername" value="#{testView.player.name}" />
+
+                        <h:outputLabel for="playerposition" value="Position: "/>
+                        <p:inputText id="playerposition" value="#{testView.player.position}" />
+
+                        <h:outputLabel for="playernumber" value="Number: "/>
+                        <p:inputText id="playernumber" value="#{testView.player.number}" />
+
+                        <h:outputLabel for="playergoals" value="Goals: "/>
+                        <p:inputText id="playergoals" value="#{testView.player.goals}" />
+                        
+                        <p:commandButton value="Add" actionListener="#{testView.addPlayer}" update="playerPanel playerTable"/>
+                        <p:commandButton value="Random Add(10)" actionListener="#{testView.randomPlayer}" oncomplete="rcPlayer()" update="playerTable" />
+                    </p:panelGrid>
+                </p:panel>
+
+                <p:panel header="Add Team" id="teamPanel">
+                    <p:panelGrid layout="grid" columns="2">
+                        <h:outputLabel for="teamname" value="Team Name: "/>
+                        <p:inputText id="teamname" value="#{testView.team.name}" />
+
+                        <h:outputLabel for="stadium" value="Stadium: "/>
+                        <p:inputText id="stadium" value="#{testView.team.stadium}" />
+
+                        <h:outputLabel for="colors" value="Colors: "/>
+                        <p:inputText id="colors" value="#{testView.team.colors}" />
+
+                        <h:outputLabel for="city" value="City: "/>
+                        <p:inputText id="city" value="#{testView.team.city}" />
+
+                        <p:commandButton value="Add" actionListener="#{testView.addTeam}" update="teamPanel teamTable"/>
+                        <p:commandButton value="Random Add(10)" actionListener="#{testView.randomTeam}"  oncomplete="rcTeam()" update="teamTable" />
+                    </p:panelGrid>
+                </p:panel>
+            </p:panelGrid>
+
+            <p:growl id="msg" showDetail="true" />
+
+            <p:panelGrid layout="grid" columns="2">
+                <p:dataTable id="playerTable" value="#{testView.players}" var="player" style="margin-top: 20px;"
+                             scrollable="true" scrollHeight="150" editable="true" selection="#{testView.selectedPlayers}" rowKey="#{player.id}">
+                    <f:facet name="header">
+                        Players
+                    </f:facet>
+
+                    <p:ajax event="rowEdit" listener="#{testView.editPlayer}" update="msg"/>
+                    
+                    <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+                    <p:column headerText="id">
+                        <h:outputText value="#{player.id}" />
+                    </p:column>
+                    <p:column headerText="name">
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{player.name}"/></f:facet>
+                            <f:facet name="input"><h:inputText value="#{player.name}" style="width: 100%" /></f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="positon">
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{player.position}"/></f:facet>
+                            <f:facet name="input"><h:inputText value="#{player.position}" style="width: 100%" /></f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="number">
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{player.number}"/></f:facet>
+                            <f:facet name="input"><h:inputText value="#{player.number}" style="width: 100%" /></f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="goals">
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{player.goals}"/></f:facet>
+                            <f:facet name="input"><h:inputText value="#{player.goals}" style="width: 100%" /></f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="edit" style="width:32px;">
+                        <p:rowEditor />
+                    </p:column>
+                </p:dataTable>
+
+                <p:dataTable id="teamTable" value="#{testView.teams}" var="team" style="margin-top: 20px;"
+                             scrollable="true" scrollHeight="150" editable="true" selection="#{testView.selectedTeams}" rowKey="#{team.id}">
+                    <f:facet name="header">
+                        Teams
+                    </f:facet>
+                    <p:ajax event="rowEdit" listener="#{testView.editTeam}" update="msg"/>
+                    
+                    <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+                    <p:column headerText="name">
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{team.name}"/></f:facet>
+                            <f:facet name="input"><h:inputText value="#{team.name}" style="width: 100%" /></f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="stadium">
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{team.stadium}"/></f:facet>
+                            <f:facet name="input"><h:inputText value="#{team.stadium}" style="width: 100%" /></f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="city">
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{team.city}"/></f:facet>
+                            <f:facet name="input"><h:inputText value="#{team.city}" style="width: 100%" /></f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="colors">
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{team.colors}"/></f:facet>
+                            <f:facet name="input"><h:inputText value="#{team.colors}" style="width: 100%" /></f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column style="width:32px">
+                        <p:rowEditor />
+                    </p:column>
+                </p:dataTable>
+                
+                <p:commandButton value="Delete" actionListener="#{testView.deletePlayer}" oncomplete="rcPlayer()" update="playerTable msg" />
+                <p:commandButton value="Delete" actionListener="#{testView.deleteTeam}" oncomplete="rcTeam()" update="teamTable msg" />
+            </p:panelGrid>
+
+            <p:commandButton value="Transfer Page" action="transfer" style="margin-left: 45%; margin-top: 20px;" />
+        </h:form>
+    </ui:define>
+</ui:composition>
